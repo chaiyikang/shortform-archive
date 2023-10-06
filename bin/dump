@@ -1,0 +1,26 @@
+  static int pressKey(char c) {
+        char cUpper = Character.toUpperCase(c);
+        // A switch statement to match the character with the corresponding KeyEvent property
+        switch (cUpper) {
+          case 'A': {
+            robot.keyPress(KeyEvent.VK_C);
+            robot.delay(20);
+            robot.keyRelease(KeyEvent.VK_C);
+            break;
+        };
+          case 'B': return KeyEvent.VK_B;
+          case 'C': return KeyEvent.VK_C;
+          // ... and so on for the rest of the alphabet
+          case '0': return KeyEvent.VK_0;
+          case '1': return KeyEvent.VK_1;
+          case '2': return KeyEvent.VK_2;
+          // ... and so on for the rest of the digits
+          case ':': return KeyEvent.VK_COLON;
+          case ';': return KeyEvent.VK_SEMICOLON;
+          case ',': return KeyEvent.VK_COMMA;
+          case '.': return KeyEvent.VK_PERIOD;
+          // ... and so on for the rest of the punctuation marks
+          // You can add more cases for other characters as needed
+          default: return -1; // Return -1 if the character is not supported
+        };
+      }
