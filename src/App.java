@@ -1,10 +1,13 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class App {
   
@@ -23,7 +26,9 @@ public class App {
 
 
     // Declare an array of book names
-    String[] bookNames = {"thinking-fast-and-slow"};
+    String[] bookNames = {"atomic-habits", "the-48-laws-of-power", "how-to-talk-to-anyone", "building-a-second-brain", "deep-work", "12-rules-for-life", "thinking-fast-and-slow", "how-to-win-friends-and-influence-people", "12-months-to-1-million", "the-psychology-of-money", "never-split-the-difference", "10-days-to-faster-reading", "outlive", "the-master-guides-negotiation-101", "the-7-habits-of-highly-effective-people", "the-subtle-art-of-not-giving-a-f-ck", "elon-musk-isaacson", "principles-life-and-work", "the-silva-mind-control-method", "the-master-guides-small-talk-with-ease", "words-that-change-minds", "how-to-take-smart-notes", "awaken-the-giant-within", "adhd-2-0", "the-power-of-now", "101-essays-that-will-change-the-way-you-think", "the-art-of-seduction", "mindset", "the-master-guides-supercharge-your-memory", "make-it-stick"};
+
+    //    String[] bookNames = {"atomic-habits",};
     
 
     // Iterate over the array of book names
@@ -33,15 +38,21 @@ public class App {
 
       // Simulate the Ctrl+S keyboard shortcut to open the Save As dialog box
       robot.delay(2000);
+      WebElement ulEle = driver.findElement(By.cssSelector("ul[class='control-menu__sub']"));
+      List<WebElement> liEles = ulEle.findElements(By.cssSelector("li[class='control-menu__sub-unit']"));
+      int fullGuideListLength = liEles.size();
+    
+
+
       robot.keyPress(KeyEvent.VK_CONTROL);
       robot.keyPress(KeyEvent.VK_S);
       robot.keyRelease(KeyEvent.VK_CONTROL);
       robot.keyRelease(KeyEvent.VK_S);
-      Thread.sleep(4000);
+      Thread.sleep(1000);
 
       // Enter the file name for the book summary, using the book name from the array
       robot.keyPress(KeyEvent.VK_BACK_SPACE);
-      robot.delay(20);
+    //   robot.delay(20);
       robot.keyRelease(KeyEvent.VK_BACK_SPACE);
 
     //   robot.keyPress(KeyEvent.VK_C);
@@ -52,7 +63,7 @@ public class App {
 
 
       robot.keyPress(KeyEvent.VK_BACK_SLASH);
-      robot.delay(20);
+    //   robot.delay(20);
       robot.keyRelease(KeyEvent.VK_BACK_SLASH);
 
       pressKey(robot, 'A');
@@ -60,8 +71,16 @@ public class App {
 
 
       robot.keyPress(KeyEvent.VK_BACK_SLASH);
-      robot.delay(20);
+    //   robot.delay(20);
       robot.keyRelease(KeyEvent.VK_BACK_SLASH);
+
+      // if summary has full summary, prefix file name
+      if (fullGuideListLength > 1) {
+        pressKey(robot, '-');
+        pressKey(robot, '-');
+        pressKey(robot, '-');
+        pressKey(robot, '-');
+      }
 
     //   Enter the book name from the array
       for (int i = 0; i < bookName.length(); i++) {
@@ -69,9 +88,9 @@ public class App {
     }
 
     
-    // robot.keyPress(KeyEvent.VK_ENTER);
-    //   robot.delay(20);
-    //   robot.keyRelease(KeyEvent.VK_ENTER);
+    robot.keyPress(KeyEvent.VK_ENTER);
+      robot.delay(20);
+      robot.keyRelease(KeyEvent.VK_ENTER);
     }
 
     // driver.quit();
