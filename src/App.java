@@ -26,9 +26,10 @@ public class App {
 
 
     // Declare an array of book names
-    String[] bookNames = {"atomic-habits", "the-48-laws-of-power", "how-to-talk-to-anyone", "building-a-second-brain", "deep-work", "12-rules-for-life", "thinking-fast-and-slow", "how-to-win-friends-and-influence-people", "12-months-to-1-million", "the-psychology-of-money", "never-split-the-difference", "10-days-to-faster-reading", "outlive", "the-master-guides-negotiation-101", "the-7-habits-of-highly-effective-people", "the-subtle-art-of-not-giving-a-f-ck", "elon-musk-isaacson", "principles-life-and-work", "the-silva-mind-control-method", "the-master-guides-small-talk-with-ease", "words-that-change-minds", "how-to-take-smart-notes", "awaken-the-giant-within", "adhd-2-0", "the-power-of-now", "101-essays-that-will-change-the-way-you-think", "the-art-of-seduction", "mindset", "the-master-guides-supercharge-your-memory", "make-it-stick"};
+    // String[] bookNames = {"atomic-habits", "the-48-laws-of-power", "how-to-talk-to-anyone", "building-a-second-brain", "deep-work", "12-rules-for-life", "thinking-fast-and-slow", "how-to-win-friends-and-influence-people", "12-months-to-1-million", "the-psychology-of-money", "never-split-the-difference", "10-days-to-faster-reading", "outlive", "the-master-guides-negotiation-101", "the-7-habits-of-highly-effective-people", "the-subtle-art-of-not-giving-a-f-ck", "elon-musk-isaacson", "principles-life-and-work", "the-silva-mind-control-method", "the-master-guides-small-talk-with-ease", "words-that-change-minds", "how-to-take-smart-notes", "awaken-the-giant-within", "adhd-2-0", "the-power-of-now", "101-essays-that-will-change-the-way-you-think", "the-art-of-seduction", "mindset", "the-master-guides-supercharge-your-memory", "make-it-stick"};
+    // String[] bookNames = {"atomic-habits", "building-a-second-brain", "the-48-laws-of-power",};
 
-    //    String[] bookNames = {"atomic-habits",};
+       String[] bookNames = {"atomic-habits",};
     
 
     // Iterate over the array of book names
@@ -39,7 +40,7 @@ public class App {
       // Simulate the Ctrl+S keyboard shortcut to open the Save As dialog box
       robot.delay(2000);
       WebElement ulEle = driver.findElement(By.cssSelector("ul[class='control-menu__sub']"));
-      List<WebElement> liEles = ulEle.findElements(By.cssSelector("li[class='control-menu__sub-unit']"));
+      List<WebElement> liEles = ulEle.findElements(By.cssSelector("li"));
       int fullGuideListLength = liEles.size();
     
 
@@ -74,24 +75,31 @@ public class App {
     //   robot.delay(20);
       robot.keyRelease(KeyEvent.VK_BACK_SLASH);
 
-      // if summary has full summary, prefix file name
-      if (fullGuideListLength > 1) {
-        pressKey(robot, '-');
-        pressKey(robot, '-');
-        pressKey(robot, '-');
-        pressKey(robot, '-');
-      }
-
-    //   Enter the book name from the array
+      
+      //   Enter the book name from the array
       for (int i = 0; i < bookName.length(); i++) {
         pressKey(robot, bookName.charAt(i));
-    }
-
+      }
+      
+      // if summary has full summary, suffix file name
+      if (fullGuideListLength > 1) {
+        for (int j = 0; j < fullGuideListLength; j++) {
+          pressKey(robot, '-');
+        }
+      }
     
     robot.keyPress(KeyEvent.VK_ENTER);
       robot.delay(20);
       robot.keyRelease(KeyEvent.VK_ENTER);
+      
+      WebElement openContents = driver.findElement(By.cssSelector("div[class='control__btn menu-btn']"));
+      WebElement closeContents = driver.findElement(By.cssSelector("div[class='control-menu']"));
+      openContents.click();
+      WebElement part = liEles.get(0);
+      part.click();
+      closeContents.click();
     }
+
 
     // driver.quit();
 }
