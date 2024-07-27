@@ -24,13 +24,8 @@ public class App {
     // Pass the options object to the ChromeDriver constructor
     WebDriver driver = new ChromeDriver(options);
 
-
-    // Declare an array of book names
-    // String[] bookNames = {"atomic-habits", "the-48-laws-of-power", "how-to-talk-to-anyone", "building-a-second-brain", "deep-work", "12-rules-for-life", "thinking-fast-and-slow", "how-to-win-friends-and-influence-people", "12-months-to-1-million", "the-psychology-of-money", "never-split-the-difference", "10-days-to-faster-reading", "outlive", "the-master-guides-negotiation-101", "the-7-habits-of-highly-effective-people", "the-subtle-art-of-not-giving-a-f-ck", "elon-musk-isaacson", "principles-life-and-work", "the-silva-mind-control-method", "the-master-guides-small-talk-with-ease", "words-that-change-minds", "how-to-take-smart-notes", "awaken-the-giant-within", "adhd-2-0", "the-power-of-now", "101-essays-that-will-change-the-way-you-think", "the-art-of-seduction", "mindset", "the-master-guides-supercharge-your-memory", "make-it-stick"};
-    // String[] bookNames = {"atomic-habits", "building-a-second-brain", "the-48-laws-of-power",};
-
-       String[] bookNames = {"atomic-habits",};
     
+    String[] bookNames = {"when-genius-failed", "poverty-by-america", "fast-this-way", "working-backwards", "the-mindbody-prescription", "the-woman-in-me", "the-art-of-community", "the-first-20-hours", "working-hard-hardly-working", "the-antidote", "narrative-economics", "irrational-exuberance", "ageless", "it-doesnt-have-to-be-crazy-at-work", "rising-strong", "the-17-indisputable-laws-of-teamwork", "the-joys-of-compounding", "superintelligence", "invent-and-wander", "and-there-was-light"};    
 
     // Iterate over the array of book names
     for (String bookName : bookNames) {
@@ -43,13 +38,88 @@ public class App {
       List<WebElement> liEles = ulEle.findElements(By.cssSelector("li"));
       int fullGuideListLength = liEles.size();
     
+      if (fullGuideListLength > 1) {
+        savePage(robot, bookName, fullGuideListLength);
+      } else {
+        savePage(robot, bookName, 0);
+      }
+    //   robot.keyPress(KeyEvent.VK_CONTROL);
+    //   robot.keyPress(KeyEvent.VK_S);
+    //   robot.keyRelease(KeyEvent.VK_CONTROL);
+    //   robot.keyRelease(KeyEvent.VK_S);
+    //   Thread.sleep(1000);
+
+    //   // Enter the file name for the book summary, using the book name from the array
+    //   robot.keyPress(KeyEvent.VK_BACK_SPACE);
+    // //   robot.delay(20);
+    //   robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+
+    // //   robot.keyPress(KeyEvent.VK_C);
+    // //   robot.delay(20);
+    // //   robot.keyRelease(KeyEvent.VK_C);
+    // pressKey(robot, 'c');
+    // pressKey(robot, ':');
 
 
-      robot.keyPress(KeyEvent.VK_CONTROL);
+    //   robot.keyPress(KeyEvent.VK_BACK_SLASH);
+    // //   robot.delay(20);
+    //   robot.keyRelease(KeyEvent.VK_BACK_SLASH);
+
+    //   pressKey(robot, 'A');
+
+
+
+    //   robot.keyPress(KeyEvent.VK_BACK_SLASH);
+    // //   robot.delay(20);
+    //   robot.keyRelease(KeyEvent.VK_BACK_SLASH);
+
+      
+    //   //   Enter the book name from the array
+    //   for (int i = 0; i < bookName.length(); i++) {
+    //     pressKey(robot, bookName.charAt(i));
+    //   }
+      
+    //   // if summary has full summary, suffix file name
+    //   if (fullGuideListLength > 1) {
+    //     for (int j = 0; j < fullGuideListLength; j++) {
+    //       pressKey(robot, '-');
+    //     }
+    //   }
+    
+    robot.keyPress(KeyEvent.VK_ENTER);
+      // robot.delay(20);
+      robot.keyRelease(KeyEvent.VK_ENTER);
+
+      if (fullGuideListLength <= 1) {
+        continue;
+      }
+      
+      WebElement openContents = driver.findElement(By.cssSelector("div[class='control__btn menu-btn']"));
+      WebElement closeContents = driver.findElement(By.cssSelector("div[class='control-menu']"));
+
+      for (int k=0; k < fullGuideListLength; k++) {
+        robot.delay(500);
+        openContents.click();
+        robot.delay(200);
+        WebElement part = liEles.get(k);
+        part.click();
+        robot.delay(200);
+        closeContents.click();
+        savePage(robot, bookName, fullGuideListLength - k - 1);
+      }
+
+    }
+
+
+    // driver.quit();
+}
+
+public static void savePage (Robot robot, String bookName, int numberDashes) throws InterruptedException {
+  robot.keyPress(KeyEvent.VK_CONTROL);
       robot.keyPress(KeyEvent.VK_S);
       robot.keyRelease(KeyEvent.VK_CONTROL);
       robot.keyRelease(KeyEvent.VK_S);
-      Thread.sleep(1000);
+      Thread.sleep(2000);
 
       // Enter the file name for the book summary, using the book name from the array
       robot.keyPress(KeyEvent.VK_BACK_SPACE);
@@ -80,28 +150,15 @@ public class App {
       for (int i = 0; i < bookName.length(); i++) {
         pressKey(robot, bookName.charAt(i));
       }
-      
-      // if summary has full summary, suffix file name
-      if (fullGuideListLength > 1) {
-        for (int j = 0; j < fullGuideListLength; j++) {
+
+      for (int j = 0; j < numberDashes; j++) {
           pressKey(robot, '-');
         }
-      }
-    
-    robot.keyPress(KeyEvent.VK_ENTER);
-      robot.delay(20);
+
+      robot.keyPress(KeyEvent.VK_ENTER);
+      // robot.delay(20);
       robot.keyRelease(KeyEvent.VK_ENTER);
-      
-      WebElement openContents = driver.findElement(By.cssSelector("div[class='control__btn menu-btn']"));
-      WebElement closeContents = driver.findElement(By.cssSelector("div[class='control-menu']"));
-      openContents.click();
-      WebElement part = liEles.get(0);
-      part.click();
-      closeContents.click();
-    }
 
-
-    // driver.quit();
 }
 
 public static void pressKey(Robot robot, char c) {
